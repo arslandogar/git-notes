@@ -24,7 +24,7 @@ export const Landing = () => {
     if (viewMode === 'grid') return <GridView page={page} />;
   };
 
-  const renderViewModeButton = (type: 'list' | 'grid') => {
+  const renderViewModeButton = (type: typeof viewMode) => {
     const icons = {
       list: 'list',
       grid: 'border-all',
