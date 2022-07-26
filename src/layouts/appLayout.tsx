@@ -12,7 +12,7 @@ export const AppLayout: FC<Props> = ({ children }) => {
       <input id="drawer-checkbox" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col">
         <Navbar />
-        <main className="flex-1 overflow-y-auto md:px-40">{children}</main>
+        <main className="flex-1 overflow-y-auto px-5 md:px-10 lg:px-20">{children}</main>
       </div>
       <Sidebar />
     </div>
