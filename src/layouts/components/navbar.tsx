@@ -1,4 +1,4 @@
-import { Input } from '@/components';
+import { GistSearchInput } from './gistSearchInput';
 
 export const Navbar = () => {
   const isLoggedIn = false;
@@ -14,12 +14,7 @@ export const Navbar = () => {
       </div>
       <div className="flex-none gap-2 hidden md:flex">
         <div className="form-control">
-          <Input
-            value=""
-            onChange={() => {}}
-            placeholder="Search Notes..."
-            rightIcon="text-white fa-solid fa-bars"
-          />
+          <GistSearchInput />
         </div>
 
         {isLoggedIn ? (

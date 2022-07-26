@@ -1,14 +1,14 @@
 import dayjs from 'dayjs';
 import { FC } from 'react';
 
-import { usePublicGistsQuery } from '@/features/gist/gistAPI';
+import { useFilteredGists } from '../hooks';
 
 interface Props {
   page: number;
 }
 
 export const TableView: FC<Props> = ({ page }) => {
-  const { data } = usePublicGistsQuery(page);
+  const data = useFilteredGists(page);
 
   return (
     <div className="overflow-x-auto">

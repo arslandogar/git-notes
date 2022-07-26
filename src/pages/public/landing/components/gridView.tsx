@@ -1,9 +1,14 @@
 import dayjs from 'dayjs';
+import { FC } from 'react';
 
-import { usePublicGistsQuery } from '@/features/gist/gistAPI';
+import { useFilteredGists } from '../hooks';
 
-export const GridView = () => {
-  const { data } = usePublicGistsQuery(10);
+interface Props {
+  page: number;
+}
+
+export const GridView: FC<Props> = ({ page }) => {
+  const data = useFilteredGists(page);
 
   return (
     <div className="overflow-x-auto">

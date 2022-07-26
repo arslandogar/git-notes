@@ -1,11 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 
-import counterReducer from '@/features/counter/counterSlice';
 import { gistAPI } from '@/features/gist/gistAPI';
+import gistSearchReducer from '@/features/gistSearch/gistSearchSlice';
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    gistSearch: gistSearchReducer,
     [gistAPI.reducerPath]: gistAPI.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(gistAPI.middleware),

@@ -10,11 +10,18 @@ export const Landing = () => {
   const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
   const { isLoading } = usePublicGistsQuery(page);
 
-  console.log(setPage);
+  const handleNextPage = () => {
+    setPage(page + 1);
+  };
+  const handlePreviousPage = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  };
 
   const renderGists = () => {
     if (viewMode === 'list') return <TableView page={page} />;
-    if (viewMode === 'grid') return <GridView />;
+    if (viewMode === 'grid') return <GridView page={page} />;
   };
 
   const renderViewModeButton = (type: 'list' | 'grid') => {
@@ -43,22 +50,11 @@ export const Landing = () => {
         renderGists()
       )}
       <div className="flex justify-center py-10 btn-group">
-        <button
-          className="btn btn-primary text-white"
-          onClick={() => {
-            if (page < 2) return;
-            setPage(page - 1);
-          }}
-        >
+        <button className="btn btn-primary text-white" onClick={handlePreviousPage}>
           «
         </button>
         <button className="btn btn-primary text-white">{`Page ${page}`}</button>
-        <button
-          onClick={() => {
-            setPage(page + 1);
-          }}
-          className="btn btn-primary text-white"
-        >
+        <button onClick={handleNextPage} className="btn btn-primary text-white">
           »
         </button>
       </div>

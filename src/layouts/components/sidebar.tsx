@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { Input } from '@/components';
+import { GistSearchInput } from './gistSearchInput';
 
 export const Sidebar: FC = () => {
   return (
@@ -10,12 +10,7 @@ export const Sidebar: FC = () => {
       </label>
       <ul className="menu p-4 overflow-y-auto w-80 bg-base-100">
         <li>
-          <Input
-            value=""
-            onChange={() => {}}
-            placeholder="Search Notes..."
-            rightIcon="fa-solid fa-bars"
-          />
+          <GistSearchInput />
         </li>
         <li>
           <a>Sidebar Item 2</a>
