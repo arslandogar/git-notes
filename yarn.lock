@@ -1554,7 +1554,7 @@
     universal-github-app-jwt "^1.0.1"
     universal-user-agent "^6.0.0"
 
-"@octokit/auth-oauth-app@^5.0.0":
+"@octokit/auth-oauth-app@^5.0.0", "@octokit/auth-oauth-app@^5.0.1":
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/@octokit/auth-oauth-app/-/auth-oauth-app-5.0.1.tgz#294b5edd780d2fca296ade2aa21feba7690c2ac7"
   integrity sha512-SGQKQGWe60kucMLCzbwc4MIohB78YawbYgGegosapDg2GxwuEVCujJccArzgn3wO+pB4aflUjFWPjkECVR2fEQ==

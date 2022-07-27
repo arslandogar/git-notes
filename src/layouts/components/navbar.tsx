@@ -1,7 +1,15 @@
+import { useGetUserQuery } from '@/features/api/githubAPI';
+import { logout } from '@/features/auth/authSlice';
+import { useAppDispatch, useAppSelector } from '@/store';
+
 import { GistSearchInput } from './gistSearchInput';
 
 export const Navbar = () => {
-  const isLoggedIn = false;
+  const { data } = useGetUserQuery(undefined);
+  console.log('user data', data);
+  const dispatch = useAppDispatch();
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+
   return (
     <div className="md:px-40 navbar bg-primary">
       <div className="flex-none md:hidden">
@@ -17,11 +25,11 @@ export const Navbar = () => {
           <GistSearchInput />
         </div>
 
-        {isLoggedIn ? (
+        {isAuthenticated ? (
           <div className="dropdown dropdown-end">
             <div role="button" tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
-                <img alt="" src="https://placeimg.com/80/80/people" />
+                <img alt="" src={data?.avatar_url} />
               </div>
             </div>
             <ul className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
@@ -35,14 +43,17 @@ export const Navbar = () => {
                 <a>Settings</a>
               </li>
               <li>
-                <a>Logout</a>
+                <button onClick={() => dispatch(logout())}>Logout</button>
               </li>
             </ul>
           </div>
         ) : (
-          <button className="btn btn-secondary text-primary" onClick={() => {}}>
+          <a
+            className="btn btn-secondary text-primary"
+            href="https://github.com/login/oauth/authorize?client_id=5d79469f3db4e6023fc2"
+          >
             Login
-          </button>
+          </a>
         )}
       </div>
     </div>

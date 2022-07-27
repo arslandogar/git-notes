@@ -1,3 +1,7 @@
 import { Octokit } from 'octokit';
 
-export const octokit = new Octokit();
+import storage from '@/utils/storage';
+
+export const octokit = new Octokit({
+  auth: storage.getToken(),
+});
