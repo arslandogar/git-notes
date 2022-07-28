@@ -37,18 +37,12 @@ export const Landing = () => {
   };
 
   return (
-    <AppLayout>
+    <AppLayout isLoading={isLoading}>
       <div className="justify-end btn-group">
         {renderViewModeButton('grid')}
         {renderViewModeButton('list')}
       </div>
-      {isLoading ? (
-        <div className="flex justify-center">
-          <progress className="progress progress-primary w-56"></progress>
-        </div>
-      ) : (
-        renderGists()
-      )}
+      {renderGists()}
       <div className="flex justify-center py-10 btn-group">
         <button className="btn btn-primary text-white" onClick={handlePreviousPage}>
           «

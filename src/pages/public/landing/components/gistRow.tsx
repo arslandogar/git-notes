@@ -1,12 +1,8 @@
 import dayjs from 'dayjs';
-import { FC, useEffect } from 'react';
-import toast from 'react-hot-toast';
+import { FC } from 'react';
+import { Link } from 'react-router-dom';
 
-import {
-  useForkGistMutation,
-  useStarGistMutation,
-  useIsStarredGistQuery,
-} from '@/features/api/githubAPI';
+import { ForkButton, StarButton } from '@/components';
 import { GistItem } from '@/features/api/types';
 import { useAppSelector } from '@/store';
 
@@ -16,29 +12,6 @@ interface Props {
 
 export const GistRow: FC<Props> = ({ gist }) => {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
-  const [forkGist, forkGistResult] = useForkGistMutation();
-  const [starGist, starGistResult] = useStarGistMutation();
-
-  const { data } = useIsStarredGistQuery(gist.id);
-
-  useEffect(() => {
-    if (forkGistResult.isSuccess) {
-      toast.success('Gist forked successfully');
-    }
-    if (forkGistResult.isError) {
-      toast.error('Failed to fork gist');
-    }
-  }, [forkGistResult]);
-
-  useEffect(() => {
-    console.log(starGistResult);
-    if (starGistResult.isSuccess) {
-      toast.success('Gist starred successfully');
-    }
-    if (starGistResult.isError) {
-      toast.error('Failed to star gist');
-    }
-  }, [starGistResult]);
 
   return (
     <tr>
@@ -63,32 +36,19 @@ export const GistRow: FC<Props> = ({ gist }) => {
       <td>{dayjs(gist.created_at).format('HH:MM A')}</td>
       <td>{gist.description}</td>
       <td>{gist.files[Object.keys(gist.files)[0]]?.filename}</td>
-      {isAuthenticated ? (
-        <td>
-          <div className="flex items-center space-x-3">
-            <button
-              className={`btn btn-ghost btn-sm text-primary ${
-                forkGistResult.isLoading ? 'loading' : ''
-              }`}
-              onClick={() => {
-                forkGist(gist.id);
-              }}
-            >
-              <i className="fas fa-code-fork text-primary"></i>
-            </button>
-            <button
-              className={`btn btn-ghost btn-sm text-primary ${
-                starGistResult.isLoading ? 'loading' : ''
-              }`}
-              onClick={() => {
-                starGist(gist.id);
-              }}
-            >
-              <i className={`fa-${data ? 'solid' : 'regular'} fa-star text-primary`} />
-            </button>
-          </div>
-        </td>
-      ) : null}
+      <td>
+        <div className="flex items-center space-x-3">
+          <Link className="btn btn-ghost btn-sm text-primary" to={`/gists/${gist.id}`}>
+            <i className="fa-solid fa-eye"></i>
+          </Link>
+          {isAuthenticated ? (
+            <>
+              <ForkButton gistId={gist.id} />
+              <StarButton gistId={gist.id} />
+            </>
+          ) : null}
+        </div>
+      </td>
     </tr>
   );
 };

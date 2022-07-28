@@ -2,9 +2,10 @@ import { FC, useState, useEffect } from 'react';
 
 interface Props {
   url: string | undefined;
+  fullView?: boolean;
 }
 
-export const CodeView: FC<Props> = ({ url }) => {
+export const CodeView: FC<Props> = ({ url, fullView }) => {
   const [code, setCode] = useState<string[]>([]);
 
   useEffect(() => {
@@ -16,7 +17,7 @@ export const CodeView: FC<Props> = ({ url }) => {
   }, [url]);
 
   return (
-    <div className="mockup-code overflow-clip h-60 bg-white text-black">
+    <div className={`mockup-code overflow-h-scroll bg-white text-black ${fullView ? '' : 'h-60'}`}>
       {code.map((line, index) => (
         <pre key={index} data-prefix={index + 1}>
           <code>{line}</code>

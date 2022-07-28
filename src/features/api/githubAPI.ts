@@ -3,7 +3,7 @@ import { createApi, BaseQueryFn } from '@reduxjs/toolkit/query/react';
 import { octokit } from '@/lib/octokit';
 import storage from '@/utils/storage';
 
-import { Profile, Gist, ErrorResponse } from './types';
+import { Profile, Gist, GistItem, ErrorResponse } from './types';
 
 const githubBaseQuery: BaseQueryFn<
   { method: 'GET' | 'POST' | 'PUT'; url: string; params: object | undefined }, // Args
@@ -16,7 +16,7 @@ const githubBaseQuery: BaseQueryFn<
     const token = storage.getToken();
     const response = await octokit.request({
       headers: {
-        Accept: 'application/vnd.github.v3+json',
+        Accept: 'application/vnd.github+json',
         'Content-Type': 'application/json',
         Authorization: token ? `token ${token}` : undefined,
       },
@@ -37,7 +37,7 @@ const githubBaseQuery: BaseQueryFn<
 export const githubAPI = createApi({
   reducerPath: 'gitHub',
   baseQuery: githubBaseQuery,
-  tagTypes: ['User', 'Gists', 'GistStars'],
+  tagTypes: ['User', 'Gists', 'PublicGists', 'GistStars'],
   endpoints: (builder) => ({
     getUser: builder.query<Profile, undefined>({
       query: () => ({ method: 'GET', url: '/user', params: undefined }),
@@ -48,9 +48,18 @@ export const githubAPI = createApi({
       query: (page: number) => ({
         method: 'GET',
         url: '/gists/public',
-        params: { per_page: 1, page },
+        params: { per_page: 12, page },
       }),
-      providesTags: (result, error, page) => [{ type: 'Gists', id: page }],
+      providesTags: (result, error, page) => [{ type: 'PublicGists', id: page }],
+    }),
+
+    gist: builder.query<GistItem, string>({
+      query: (id: string) => ({
+        method: 'GET',
+        url: '/gists/{gist_id}',
+        params: { gist_id: id },
+      }),
+      providesTags: (result, error, id) => [{ type: 'Gists', id }],
     }),
 
     isStarredGist: builder.query<boolean, string>({
@@ -84,6 +93,7 @@ export const githubAPI = createApi({
 export const {
   useGetUserQuery,
   usePublicGistsQuery,
+  useGistQuery,
   useIsStarredGistQuery,
   useForkGistMutation,
   useStarGistMutation,

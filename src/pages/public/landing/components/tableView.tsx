@@ -1,7 +1,5 @@
 import { FC } from 'react';
 
-import { useAppSelector } from '@/store';
-
 import { useFilteredGists } from '../hooks';
 
 import { GistRow } from './gistRow';
@@ -11,7 +9,6 @@ interface Props {
 }
 
 export const TableView: FC<Props> = ({ page }) => {
-  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const data = useFilteredGists(page);
 
   return (
@@ -30,7 +27,7 @@ export const TableView: FC<Props> = ({ page }) => {
             <th>Time</th>
             <th>Keyword</th>
             <th>Notebook Name</th>
-            {isAuthenticated ? <th /> : null}
+            <th />
           </tr>
         </thead>
         <tbody>

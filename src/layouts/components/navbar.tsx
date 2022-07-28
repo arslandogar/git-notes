@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import { useGetUserQuery, githubAPI } from '@/features/api/githubAPI';
 import { logout } from '@/features/auth/authSlice';
 import { useAppDispatch, useAppSelector } from '@/store';
@@ -18,7 +20,9 @@ export const Navbar = () => {
         </label>
       </div>
       <div className="flex-1">
-        <a className="btn btn-ghost normal-case text-white text-xl">Emumba</a>
+        <Link to="/" className="btn btn-ghost normal-case text-white text-xl">
+          Emumba
+        </Link>
       </div>
       <div className="flex-none gap-2 hidden md:flex">
         <div className="form-control">
@@ -28,7 +32,7 @@ export const Navbar = () => {
         {isAuthenticated ? (
           <div className="dropdown dropdown-end">
             <div role="button" tabIndex={0} className="btn btn-ghost btn-circle avatar">
-              <div className="w-10 rounded-full">
+              <div className="w-20 rounded-full">
                 <img alt="" src={data?.avatar_url} />
               </div>
             </div>
