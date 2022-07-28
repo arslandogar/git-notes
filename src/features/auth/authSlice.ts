@@ -15,7 +15,6 @@ const initialState: AuthState = {
 export const login = createAsyncThunk('auth/login', async (code: string) => {
   const response = await fetch(`http://localhost:9999/authenticate/${code}`);
   const { token } = await response.json();
-  console.log(token);
   if (token) {
     storage.setToken(token);
     return true;

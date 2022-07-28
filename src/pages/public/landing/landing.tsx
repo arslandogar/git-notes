@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { usePublicGistsQuery } from '@/features/gist/gistAPI';
+import { usePublicGistsQuery } from '@/features/api/githubAPI';
 import { AppLayout } from '@/layouts';
 
 import { TableView, GridView } from './components';

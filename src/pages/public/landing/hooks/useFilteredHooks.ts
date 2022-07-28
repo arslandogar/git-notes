@@ -1,4 +1,4 @@
-import { usePublicGistsQuery } from '@/features/gist/gistAPI';
+import { usePublicGistsQuery } from '@/features/api/githubAPI';
 import { useAppSelector } from '@/store';
 
 export const useFilteredGists = (page: number) => {

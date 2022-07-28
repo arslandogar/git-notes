@@ -1,12 +1,12 @@
-import { useGetUserQuery } from '@/features/api/githubAPI';
+import { useGetUserQuery, githubAPI } from '@/features/api/githubAPI';
 import { logout } from '@/features/auth/authSlice';
 import { useAppDispatch, useAppSelector } from '@/store';
 
 import { GistSearchInput } from './gistSearchInput';
 
 export const Navbar = () => {
-  const { data } = useGetUserQuery(undefined);
-  console.log('user data', data);
+  const { data, error } = useGetUserQuery(undefined);
+  console.log('user error', error);
   const dispatch = useAppDispatch();
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 
@@ -43,14 +43,21 @@ export const Navbar = () => {
                 <a>Settings</a>
               </li>
               <li>
-                <button onClick={() => dispatch(logout())}>Logout</button>
+                <button
+                  onClick={() => {
+                    dispatch(logout());
+                    dispatch(githubAPI.util.resetApiState());
+                  }}
+                >
+                  Logout
+                </button>
               </li>
             </ul>
           </div>
         ) : (
           <a
             className="btn btn-secondary text-primary"
-            href="https://github.com/login/oauth/authorize?client_id=5d79469f3db4e6023fc2"
+            href={`https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&scope=gist`}
           >
             Login
           </a>
