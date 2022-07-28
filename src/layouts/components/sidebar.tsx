@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import { GistSearchInput } from './gistSearchInput';
+import { MenuItems } from './navbarDropdownMenu';
 
 export const Sidebar: FC = () => {
   return (
@@ -12,9 +13,7 @@ export const Sidebar: FC = () => {
         <li>
           <GistSearchInput />
         </li>
-        <li>
-          <a>Sidebar Item 2</a>
-        </li>
+        <MenuItems />
       </ul>
     </div>
   );

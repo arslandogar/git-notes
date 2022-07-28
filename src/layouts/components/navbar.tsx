@@ -1,15 +1,11 @@
 import { Link } from 'react-router-dom';
 
-import { useGetUserQuery, githubAPI } from '@/features/api/githubAPI';
-import { logout } from '@/features/auth/authSlice';
-import { useAppDispatch, useAppSelector } from '@/store';
+import { useAppSelector } from '@/store';
 
 import { GistSearchInput } from './gistSearchInput';
+import { NavbarDropdownMenu } from './navbarDropdownMenu';
 
 export const Navbar = () => {
-  const { data, error } = useGetUserQuery(undefined);
-  console.log('user error', error);
-  const dispatch = useAppDispatch();
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 
   return (
@@ -30,34 +26,7 @@ export const Navbar = () => {
         </div>
 
         {isAuthenticated ? (
-          <div className="dropdown dropdown-end">
-            <div role="button" tabIndex={0} className="btn btn-ghost btn-circle avatar">
-              <div className="w-20 rounded-full">
-                <img alt="" src={data?.avatar_url} />
-              </div>
-            </div>
-            <ul className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
-              <li>
-                <a className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
-                </a>
-              </li>
-              <li>
-                <a>Settings</a>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    dispatch(logout());
-                    dispatch(githubAPI.util.resetApiState());
-                  }}
-                >
-                  Logout
-                </button>
-              </li>
-            </ul>
-          </div>
+          <NavbarDropdownMenu />
         ) : (
           <a
             className="btn btn-secondary text-primary"
