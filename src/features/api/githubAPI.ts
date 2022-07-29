@@ -10,11 +10,24 @@ const GISTS_PER_PAGE = 12;
 export const githubAPI = createApi({
   reducerPath: 'gitHub',
   baseQuery: githubBaseQuery,
-  tagTypes: ['User', 'UserGists', 'StarredGists', 'PublicGists', 'GistItems', 'GistStars'],
+  tagTypes: [
+    'CurrentUser',
+    'Users',
+    'UserGists',
+    'StarredGists',
+    'PublicGists',
+    'GistItems',
+    'GistStars',
+  ],
   endpoints: (builder) => ({
-    user: builder.query<Profile, undefined>({
-      query: () => ({ method: 'GET', url: '/user', params: undefined }),
-      providesTags: ['User'],
+    currentUser: builder.query<Profile, undefined>({
+      query: () => ({ method: 'GET', url: '/user' }),
+      providesTags: ['CurrentUser'],
+    }),
+
+    user: builder.query<Profile, string>({
+      query: (username) => ({ method: 'GET', url: '/users/{username}', params: { username } }),
+      providesTags: (result, error, username) => [{ type: 'Users', id: username }],
     }),
 
     userGists: builder.query<Gist[], { username: string; page: number }>({
@@ -77,6 +90,7 @@ export const githubAPI = createApi({
         url: '/gists/{gist_id}/forks',
         params: { gist_id: id },
       }),
+      invalidatesTags: ['UserGists'],
       extraOptions: {
         successMessage: 'Gist forked successfully',
         failureMessage: 'Failed to fork gist',
@@ -89,7 +103,7 @@ export const githubAPI = createApi({
         url: '/gists/{gist_id}/star',
         params: { gist_id: id },
       }),
-      invalidatesTags: (result, error, id) => [{ type: 'GistStars', id }],
+      invalidatesTags: (result, error, id) => [{ type: 'GistStars', id }, 'StarredGists'],
       extraOptions: {
         successMessage: 'Gist starred successfully',
         failureMessage: 'Failed to star gist',
@@ -102,7 +116,7 @@ export const githubAPI = createApi({
         url: '/gists/{gist_id}/star',
         params: { gist_id: id },
       }),
-      invalidatesTags: (result, error, id) => [{ type: 'GistStars', id }],
+      invalidatesTags: (result, error, id) => [{ type: 'GistStars', id }, 'StarredGists'],
       extraOptions: {
         successMessage: 'Gist unstarred successfully',
         failureMessage: 'Failed to unstar gist',
@@ -115,7 +129,7 @@ export const githubAPI = createApi({
         url: '/gists',
         params: data,
       }),
-      invalidatesTags: ['PublicGists'],
+      invalidatesTags: ['PublicGists', 'UserGists'],
       extraOptions: {
         successMessage: 'Gist created successfully',
         failureMessage: 'Failed to create gist',
@@ -128,7 +142,7 @@ export const githubAPI = createApi({
         url: '/gists/{gist_id}',
         params: data,
       }),
-      invalidatesTags: ['PublicGists'],
+      invalidatesTags: ['PublicGists', 'UserGists'],
       extraOptions: {
         successMessage: 'Gist updated successfully',
         failureMessage: 'Failed to update gist',
@@ -141,7 +155,12 @@ export const githubAPI = createApi({
         url: '/gists/{gist_id}',
         params: { gist_id: id },
       }),
-      invalidatesTags: (result, error, id) => ['PublicGists', { type: 'GistItems', id }],
+      invalidatesTags: (result, error, id) => [
+        { type: 'GistItems', id },
+        'PublicGists',
+        'UserGists',
+        'StarredGists',
+      ],
       extraOptions: {
         successMessage: 'Gist deteleted successfully',
         failureMessage: 'Failed to delete gist',
@@ -151,6 +170,7 @@ export const githubAPI = createApi({
 });
 
 export const {
+  useCurrentUserQuery,
   useUserQuery,
   useUserGistsQuery,
   useStarredGistsQuery,

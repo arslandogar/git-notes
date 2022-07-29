@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 
-import { TableView, GridView } from '@/components';
+import { TableView, GridView, Pagination } from '@/components';
 import { Gist } from '@/features/api/types';
 import { useFilteredGists } from '@/hooks';
 import { AppLayout } from '@/layouts';
@@ -17,16 +17,10 @@ export const GistListing: FC<Props> = ({ isLoading, data, page, setPage }) => {
 
   const filteredData = useFilteredGists(data);
 
-  const handleNextPage = () => {
-    setPage(page + 1);
-  };
-  const handlePreviousPage = () => {
-    if (page > 1) {
-      setPage(page - 1);
-    }
-  };
-
   const renderGists = () => {
+    if (filteredData?.length === 0) {
+      return <div className="text-center text-2xl text-error">No Gists Found</div>;
+    }
     if (viewMode === 'list') return <TableView data={filteredData} />;
     if (viewMode === 'grid') return <GridView data={filteredData} />;
   };
@@ -50,15 +44,7 @@ export const GistListing: FC<Props> = ({ isLoading, data, page, setPage }) => {
         {renderViewModeButton('list')}
       </div>
       {renderGists()}
-      <div className="flex justify-center py-10 btn-group">
-        <button className="btn btn-primary text-white" onClick={handlePreviousPage}>
-          «
-        </button>
-        <button className="btn btn-primary text-white">{`Page ${page}`}</button>
-        <button onClick={handleNextPage} className="btn btn-primary text-white">
-          »
-        </button>
-      </div>
+      <Pagination page={page} setPage={setPage} />
     </AppLayout>
   );
 };

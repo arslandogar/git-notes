@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 import { ForkButton, StarButton, DeleteButton } from '@/components';
-import { useUserQuery } from '@/features/api/githubAPI';
+import { useCurrentUserQuery } from '@/features/api/githubAPI';
 import { Gist } from '@/features/api/types';
 import { useAppSelector } from '@/store';
 
@@ -20,7 +20,7 @@ export const GistInfo: FC<Props> = ({
   actionsButtonsDirection = 'row',
 }) => {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
-  const { data: currentUser } = useUserQuery(undefined);
+  const { data: currentUser } = useCurrentUserQuery(undefined);
 
   const renderCurrentUserOptions = (gistId: string) => {
     const isOwner = owner?.login === currentUser?.login;
@@ -54,7 +54,7 @@ export const GistInfo: FC<Props> = ({
             </Link>
             <span>{' / '}</span>
             <Link to={`gists/${id}`}>
-              <span className="link truncate">{file.filename}</span>
+              <span className="link truncate">{file?.filename}</span>
             </Link>
           </div>
           <span className="text-gray-400">{`Created ${dayjs(created_at).fromNow()}`}</span>

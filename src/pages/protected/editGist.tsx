@@ -4,13 +4,13 @@ import { useParams } from 'react-router-dom';
 
 import { GistForm, ErrorFallback } from '@/components';
 import { GistFile } from '@/components/gistForm/types';
-import { useUpdateGistMutation, useGistQuery, useUserQuery } from '@/features/api/githubAPI';
+import { useUpdateGistMutation, useGistQuery, useCurrentUserQuery } from '@/features/api/githubAPI';
 import { AppLayout } from '@/layouts';
 
 export const EditGist = () => {
   const params = useParams<{ gistId: string }>();
   const { data: gist, isLoading } = useGistQuery(params.gistId as string);
-  const { data: currentUser } = useUserQuery(undefined);
+  const { data: currentUser } = useCurrentUserQuery(undefined);
   const [updateGist, { isLoading: isUpdating }] = useUpdateGistMutation();
 
   const [isLoadingFiles, setIsLoadingFiles] = useState(true);

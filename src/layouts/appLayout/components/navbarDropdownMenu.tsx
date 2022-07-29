@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 
-import { useUserQuery, githubAPI } from '@/features/api/githubAPI';
+import { useCurrentUserQuery, githubAPI } from '@/features/api/githubAPI';
 import { logout } from '@/features/auth/authSlice';
 import { useAppDispatch } from '@/store';
 
 export const NavbarDropdownMenu = () => {
-  const { data } = useUserQuery(undefined);
+  const { data } = useCurrentUserQuery(undefined);
 
   return (
     <div className="dropdown dropdown-end">
@@ -23,7 +23,7 @@ export const NavbarDropdownMenu = () => {
 
 export const MenuItems = () => {
   const dispatch = useAppDispatch();
-  const { data } = useUserQuery(undefined);
+  const { data } = useCurrentUserQuery(undefined);
 
   if (!data) return null;
   return (
