@@ -4,7 +4,6 @@ import { Toaster } from 'react-hot-toast';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import { Button } from '@/components';
 import { store } from '@/store';
 
 const ErrorFallback = () => {
@@ -14,9 +13,12 @@ const ErrorFallback = () => {
       role="alert"
     >
       <h2 className="text-lg font-semibold">Ooops, something went wrong :( </h2>
-      <Button className="mt-4" onClick={() => window.location.assign(window.location.origin)}>
+      <button
+        className="btn btn-error mt-4"
+        onClick={() => window.location.assign(window.location.origin)}
+      >
         Refresh
-      </Button>
+      </button>
     </div>
   );
 };

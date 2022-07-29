@@ -1,29 +1,18 @@
 import { createApi, BaseQueryFn } from '@reduxjs/toolkit/query/react';
 
-import { octokit } from '@/lib/octokit';
-import storage from '@/utils/storage';
+import { request, RequestOptions } from '@/lib/octokit';
 
-import { Profile, Gist, GistItem, ErrorResponse } from './types';
+import { Profile, Gist, GistDTO, ErrorResponse } from './types';
 
 const githubBaseQuery: BaseQueryFn<
-  { method: 'GET' | 'POST' | 'PUT'; url: string; params: object | undefined }, // Args
+  RequestOptions, // Args
   unknown, // Result
   ErrorResponse, // Error
   any, // DefinitionExtraOptions
   any // Meta
 > = async (arg) => {
   try {
-    const token = storage.getToken();
-    const response = await octokit.request({
-      headers: {
-        Accept: 'application/vnd.github+json',
-        'Content-Type': 'application/json',
-        Authorization: token ? `token ${token}` : undefined,
-      },
-      method: arg.method,
-      url: arg.url,
-      ...arg.params,
-    });
+    const response = await request(arg);
     return { data: response.data ? response.data : true };
   } catch (error: any) {
     const response = error.response;
@@ -44,8 +33,8 @@ export const githubAPI = createApi({
       providesTags: ['User'],
     }),
 
-    publicGists: builder.query<Gist, number>({
-      query: (page: number) => ({
+    publicGists: builder.query<Gist[], number>({
+      query: (page) => ({
         method: 'GET',
         url: '/gists/public',
         params: { per_page: 12, page },
@@ -53,8 +42,8 @@ export const githubAPI = createApi({
       providesTags: (result, error, page) => [{ type: 'PublicGists', id: page }],
     }),
 
-    gist: builder.query<GistItem, string>({
-      query: (id: string) => ({
+    gist: builder.query<Gist, string>({
+      query: (id) => ({
         method: 'GET',
         url: '/gists/{gist_id}',
         params: { gist_id: id },
@@ -63,16 +52,23 @@ export const githubAPI = createApi({
     }),
 
     isStarredGist: builder.query<boolean, string>({
-      query: (id: string) => ({
-        method: 'GET',
-        url: '/gists/{gist_id}/star',
-        params: { gist_id: id },
-      }),
+      async queryFn(id) {
+        try {
+          await request({
+            method: 'GET',
+            url: '/gists/{gist_id}/star',
+            params: { gist_id: id },
+          });
+          return { data: true };
+        } catch (error) {
+          return { data: false };
+        }
+      },
       providesTags: (result, error, id) => [{ type: 'GistStars', id }],
     }),
 
     forkGist: builder.mutation<boolean, string>({
-      query: (id: string) => ({
+      query: (id) => ({
         method: 'POST',
         url: '/gists/{gist_id}/forks',
         params: { gist_id: id },
@@ -80,12 +76,48 @@ export const githubAPI = createApi({
     }),
 
     starGist: builder.mutation<boolean, string>({
-      query: (id: string) => ({
+      query: (id) => ({
         method: 'PUT',
         url: '/gists/{gist_id}/star',
         params: { gist_id: id },
       }),
       invalidatesTags: (result, error, id) => [{ type: 'GistStars', id }],
+    }),
+
+    unStarGist: builder.mutation<boolean, string>({
+      query: (id) => ({
+        method: 'DELETE',
+        url: '/gists/{gist_id}/star',
+        params: { gist_id: id },
+      }),
+      invalidatesTags: (result, error, id) => [{ type: 'GistStars', id }],
+    }),
+
+    createGist: builder.mutation<Gist, GistDTO>({
+      query: (data) => ({
+        method: 'POST',
+        url: '/gists',
+        params: data,
+      }),
+      invalidatesTags: ['PublicGists'],
+    }),
+
+    updateGist: builder.mutation<Gist, GistDTO>({
+      query: (data) => ({
+        method: 'PATCH',
+        url: '/gists/{gist_id}',
+        params: data,
+      }),
+      invalidatesTags: ['PublicGists'],
+    }),
+
+    deleteGist: builder.mutation<Gist, string>({
+      query: (id) => ({
+        method: 'DELETE',
+        url: '/gists/{gist_id}',
+        params: { gist_id: id },
+      }),
+      invalidatesTags: (result, error, id) => ['PublicGists', { type: 'Gists', id }],
     }),
   }),
 });
@@ -97,4 +129,8 @@ export const {
   useIsStarredGistQuery,
   useForkGistMutation,
   useStarGistMutation,
+  useUnStarGistMutation,
+  useCreateGistMutation,
+  useUpdateGistMutation,
+  useDeleteGistMutation,
 } = githubAPI;

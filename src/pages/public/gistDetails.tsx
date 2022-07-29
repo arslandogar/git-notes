@@ -1,10 +1,10 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { FC } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
-import { CodeView, ForkButton, StarButton } from '@/components';
-import { useGistQuery } from '@/features/api/githubAPI';
+import { CodeView, ForkButton, DeleteButton, StarButton } from '@/components';
+import { useGetUserQuery, useGistQuery } from '@/features/api/githubAPI';
 import { AppLayout } from '@/layouts';
 
 dayjs.extend(relativeTime);
@@ -12,6 +12,22 @@ dayjs.extend(relativeTime);
 export const GridDetails: FC = () => {
   const params = useParams<{ gistId: string }>();
   const { data: gist, isLoading } = useGistQuery(params.gistId as string);
+  const { data: currentUser } = useGetUserQuery(undefined);
+
+  const renderCurrentUserOptions = () => {
+    if (gist && gist.owner?.login === currentUser?.login) {
+      return (
+        <>
+          <DeleteButton gistId={gist?.id} />
+          <Link className="btn btn-ghost btn-sm text-blue-600" to={`/gists/edit/${gist.id}`}>
+            <i className="fa-solid fa-edit"></i>
+            <span className="ml-2">Edit</span>
+          </Link>
+        </>
+      );
+    }
+    return null;
+  };
 
   const file = gist?.files[Object.keys(gist?.files)[0]];
   return (
@@ -38,6 +54,7 @@ export const GridDetails: FC = () => {
           </div>
           {gist ? (
             <div className="flex flex-row ml-auto align-middle justify-evenly">
+              {renderCurrentUserOptions()}
               <StarButton gistId={gist.id} color="blue" showText />
               <ForkButton gistId={gist.id} color="blue" showText />
             </div>

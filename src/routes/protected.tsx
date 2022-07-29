@@ -1,11 +1,15 @@
 import { Navigate } from 'react-router-dom';
 
-import { Profile } from '@/pages/protected';
+import { CreateGist, EditGist } from '@/pages/protected';
 
 export const protectedRoutes = [
   {
-    path: '/profile',
-    element: <Profile />,
+    path: '/gists/create',
+    element: <CreateGist />,
+  },
+  {
+    path: '/gists/edit/:gistId',
+    element: <EditGist />,
   },
   {
     path: '*',

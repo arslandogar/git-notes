@@ -3,11 +3,11 @@ import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 import { ForkButton, StarButton } from '@/components';
-import { GistItem } from '@/features/api/types';
+import { Gist } from '@/features/api/types';
 import { useAppSelector } from '@/store';
 
 interface Props {
-  gist: GistItem;
+  gist: Gist;
 }
 
 export const GistRow: FC<Props> = ({ gist }) => {

@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import { useGetUserQuery, githubAPI } from '@/features/api/githubAPI';
 import { logout } from '@/features/auth/authSlice';
 import { useAppDispatch } from '@/store';
@@ -29,7 +31,9 @@ export const MenuItems = () => {
         <a className="justify-between">{data?.login}</a>
       </li>
       <li className="border-b">
-        <a className="justify-between">Create gist</a>
+        <Link to="/gists/create" className="justify-between">
+          Create gist
+        </Link>
         <a className="justify-between">Starred gists</a>
       </li>
       <li>
