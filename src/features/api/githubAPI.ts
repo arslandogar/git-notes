@@ -8,11 +8,22 @@ import { Profile, Gist, GistDTO } from './types';
 export const githubAPI = createApi({
   reducerPath: 'gitHub',
   baseQuery: githubBaseQuery,
-  tagTypes: ['User', 'Gists', 'PublicGists', 'GistStars'],
+  tagTypes: ['User', 'UserGists', 'StarredGists', 'PublicGists', 'GistItems', 'GistStars'],
   endpoints: (builder) => ({
-    getUser: builder.query<Profile, undefined>({
+    user: builder.query<Profile, undefined>({
       query: () => ({ method: 'GET', url: '/user', params: undefined }),
       providesTags: ['User'],
+    }),
+
+    userGists: builder.query<Gist[], { username: string; page: number }>({
+      query: (arg) => ({
+        method: 'GET',
+        url: '/users/{username}/gists',
+        params: { per_page: 12, ...arg },
+      }),
+      providesTags: (result, error, arg) => [
+        { type: 'UserGists', id: `${arg.username}/${arg.page}` },
+      ],
     }),
 
     publicGists: builder.query<Gist[], number>({
@@ -30,7 +41,7 @@ export const githubAPI = createApi({
         url: '/gists/{gist_id}',
         params: { gist_id: id },
       }),
-      providesTags: (result, error, id) => [{ type: 'Gists', id }],
+      providesTags: (result, error, id) => [{ type: 'GistItems', id }],
     }),
 
     isStarredGist: builder.query<boolean, string>({
@@ -119,7 +130,7 @@ export const githubAPI = createApi({
         url: '/gists/{gist_id}',
         params: { gist_id: id },
       }),
-      invalidatesTags: (result, error, id) => ['PublicGists', { type: 'Gists', id }],
+      invalidatesTags: (result, error, id) => ['PublicGists', { type: 'GistItems', id }],
       extraOptions: {
         successMessage: 'Gist deteleted successfully',
         failureMessage: 'Failed to delete gist',
@@ -129,7 +140,8 @@ export const githubAPI = createApi({
 });
 
 export const {
-  useGetUserQuery,
+  useUserQuery,
+  useUserGistsQuery,
   usePublicGistsQuery,
   useGistQuery,
   useIsStarredGistQuery,

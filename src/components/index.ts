@@ -6,3 +6,4 @@ export * from './iconButton';
 export * from './gistForm/gistForm';
 export * from './deleteButton';
 export * from './errorFallback';
+export * from './gistView';

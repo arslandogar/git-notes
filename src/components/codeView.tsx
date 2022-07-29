@@ -17,7 +17,7 @@ export const CodeView: FC<Props> = ({ url, fullView }) => {
   }, [url]);
 
   return (
-    <div className={`mockup-code overflow-h-scroll bg-white text-black ${fullView ? '' : 'h-60'}`}>
+    <div className={`mockup-code overflow-scroll bg-white text-black ${fullView ? '' : 'h-60'}`}>
       {code.map((line, index) => (
         <pre key={index} data-prefix={index + 1}>
           <code>{line}</code>

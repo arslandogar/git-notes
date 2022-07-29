@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 
-import { useGetUserQuery, githubAPI } from '@/features/api/githubAPI';
+import { useUserQuery, githubAPI } from '@/features/api/githubAPI';
 import { logout } from '@/features/auth/authSlice';
 import { useAppDispatch } from '@/store';
 
 export const NavbarDropdownMenu = () => {
-  const { data } = useGetUserQuery(undefined);
+  const { data } = useUserQuery(undefined);
 
   return (
     <div className="dropdown dropdown-end">
@@ -23,12 +23,16 @@ export const NavbarDropdownMenu = () => {
 
 export const MenuItems = () => {
   const dispatch = useAppDispatch();
-  const { data } = useGetUserQuery(undefined);
+  const { data } = useUserQuery(undefined);
+
+  if (!data) return null;
   return (
     <>
       <li className="border-b">
         <p className="text-gray-500 pointer-events-none">Sign in as</p>
-        <a className="justify-between">{data?.login}</a>
+        <Link to={`users/${data?.login}`} className="justify-between">
+          {data?.login}
+        </Link>
       </li>
       <li className="border-b">
         <Link to="/gists/create" className="justify-between">
