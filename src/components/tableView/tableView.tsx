@@ -1,16 +1,14 @@
 import { FC } from 'react';
 
-import { useFilteredGists } from '../hooks';
+import { Gist } from '@/features/api/types';
 
-import { GistRow } from './gistRow';
+import { GistRow } from './components';
 
 interface Props {
-  page: number;
+  data?: Gist[];
 }
 
-export const TableView: FC<Props> = ({ page }) => {
-  const data = useFilteredGists(page);
-
+export const TableView: FC<Props> = ({ data }) => {
   return (
     <div className="overflow-x-auto">
       <table className="table w-full">

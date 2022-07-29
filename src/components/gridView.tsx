@@ -1,16 +1,13 @@
 import { FC } from 'react';
 
 import { GistView } from '@/components';
-
-import { useFilteredGists } from '../hooks';
+import { Gist } from '@/features/api/types';
 
 interface Props {
-  page: number;
+  data?: Gist[];
 }
 
-export const GridView: FC<Props> = ({ page }) => {
-  const data = useFilteredGists(page);
-
+export const GridView: FC<Props> = ({ data }) => {
   return (
     <div className="overflow-x-auto">
       <div className="grid py-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

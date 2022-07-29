@@ -5,6 +5,8 @@ import { request } from '@/lib/octokit';
 import { githubBaseQuery } from './githubBaseQuery';
 import { Profile, Gist, GistDTO } from './types';
 
+const GISTS_PER_PAGE = 12;
+
 export const githubAPI = createApi({
   reducerPath: 'gitHub',
   baseQuery: githubBaseQuery,
@@ -19,18 +21,27 @@ export const githubAPI = createApi({
       query: (arg) => ({
         method: 'GET',
         url: '/users/{username}/gists',
-        params: { per_page: 12, ...arg },
+        params: { per_page: GISTS_PER_PAGE, ...arg },
       }),
       providesTags: (result, error, arg) => [
         { type: 'UserGists', id: `${arg.username}/${arg.page}` },
       ],
     }),
 
+    starredGists: builder.query<Gist[], number>({
+      query: (page) => ({
+        method: 'GET',
+        url: '/gists/starred',
+        params: { per_page: GISTS_PER_PAGE, page },
+      }),
+      providesTags: (result, error, page) => [{ type: 'StarredGists', id: page }],
+    }),
+
     publicGists: builder.query<Gist[], number>({
       query: (page) => ({
         method: 'GET',
         url: '/gists/public',
-        params: { per_page: 12, page },
+        params: { per_page: GISTS_PER_PAGE, page },
       }),
       providesTags: (result, error, page) => [{ type: 'PublicGists', id: page }],
     }),
@@ -142,6 +153,7 @@ export const githubAPI = createApi({
 export const {
   useUserQuery,
   useUserGistsQuery,
+  useStarredGistsQuery,
   usePublicGistsQuery,
   useGistQuery,
   useIsStarredGistQuery,

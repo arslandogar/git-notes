@@ -38,7 +38,9 @@ export const MenuItems = () => {
         <Link to="/gists/create" className="justify-between">
           Create gist
         </Link>
-        <a className="justify-between">Starred gists</a>
+        <Link to="/gists/starred" className="justify-between">
+          Starred gists
+        </Link>
       </li>
       <li>
         <button

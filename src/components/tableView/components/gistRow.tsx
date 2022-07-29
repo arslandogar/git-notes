@@ -27,9 +27,11 @@ export const GistRow: FC<Props> = ({ gist }) => {
               <img src={gist.owner?.avatar_url} alt="Gist Owner" />
             </div>
           </div>
-          <div className="text-md">
-            <span className="text-gray-600">{gist.owner?.login}</span>
-          </div>
+          <Link to={`/users/${gist.owner?.login}`}>
+            <div className="link text-md">
+              <span className="text-gray-600">{gist.owner?.login}</span>
+            </div>
+          </Link>
         </div>
       </td>
       <td>{dayjs(gist.created_at).format('DD MMM YYYY')}</td>

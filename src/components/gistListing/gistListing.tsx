@@ -1,14 +1,21 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 
-import { usePublicGistsQuery } from '@/features/api/githubAPI';
+import { TableView, GridView } from '@/components';
+import { Gist } from '@/features/api/types';
+import { useFilteredGists } from '@/hooks';
 import { AppLayout } from '@/layouts';
 
-import { TableView, GridView } from './components';
+interface Props {
+  isLoading?: boolean;
+  data?: Gist[];
+  page: number;
+  setPage: (page: number) => void;
+}
 
-export const Landing = () => {
-  const [page, setPage] = useState(1);
+export const GistListing: FC<Props> = ({ isLoading, data, page, setPage }) => {
   const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
-  const { isLoading } = usePublicGistsQuery(page);
+
+  const filteredData = useFilteredGists(data);
 
   const handleNextPage = () => {
     setPage(page + 1);
@@ -20,8 +27,8 @@ export const Landing = () => {
   };
 
   const renderGists = () => {
-    if (viewMode === 'list') return <TableView page={page} />;
-    if (viewMode === 'grid') return <GridView page={page} />;
+    if (viewMode === 'list') return <TableView data={filteredData} />;
+    if (viewMode === 'grid') return <GridView data={filteredData} />;
   };
 
   const renderViewModeButton = (type: typeof viewMode) => {

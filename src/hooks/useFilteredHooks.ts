@@ -1,9 +1,8 @@
-import { usePublicGistsQuery } from '@/features/api/githubAPI';
+import { Gist } from '@/features/api/types';
 import { useAppSelector } from '@/store';
 
-export const useFilteredGists = (page: number) => {
+export const useFilteredGists = (data?: Gist[]) => {
   const searchValue = useAppSelector((state) => state.gistSearch.value);
-  const { data } = usePublicGistsQuery(page);
 
   return data?.filter((gist) => {
     const { id, description } = gist;
