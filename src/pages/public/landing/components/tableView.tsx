@@ -31,7 +31,6 @@ export const TableView: FC<Props> = ({ page }) => {
           </tr>
         </thead>
         <tbody>
-          {/* row 1 */}
           {data?.map((gist) => (
             <GistRow key={gist.id} gist={gist} />
           ))}

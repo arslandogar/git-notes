@@ -1,5 +1,6 @@
+/* eslint-disable react/display-name */
 import { yupResolver } from '@hookform/resolvers/yup';
-import { FC } from 'react';
+import { FC, forwardRef, Ref } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 
 import { schema } from './schema';
@@ -52,39 +53,38 @@ export const GistForm: FC<Props> = ({ gistId, defaultValues, onSubmitForm, isLoa
     }
   };
 
-  console.log(errors);
-
   return (
     <form className="form-control py-10 w-full " onSubmit={handleSubmit(onSubmit)}>
-      <label className="label cursor-pointer w-32">
+      <label className="label cursor-pointer w-32" htmlFor="public">
         <span className="label-text">Public Gist</span>
-        <input
+        <InputComponent
           disabled={isLoading}
           type="checkbox"
-          className="checkbox checkbox-primary my-3"
+          className="checkbox checkbox-primary"
+          error={errors.public?.message}
           {...register('public')}
         />
       </label>
-      <input
+      <InputComponent
         disabled={isLoading}
-        type="text"
         placeholder="Enter gist description..."
-        className=" input input-bordered w-full my-3"
+        error={errors.description?.message}
         {...register('description')}
       />
       {fields.map((field, index) => (
         <div key={field.id}>
-          <input
+          <InputComponent
             disabled={isLoading}
-            type="text"
             placeholder="Enter gist file name..."
-            className="input input-bordered w-full my-3"
+            error={errors.files?.[index]?.key?.message}
             {...register(`files.${index}.key`)}
           />
-          <textarea
+          <InputComponent
             disabled={isLoading}
             placeholder="Enter gist file content..."
-            className="textarea textarea-bordered w-full h-80 my-3"
+            className="textarea textarea-bordered w-full h-80"
+            elementType="textarea"
+            error={errors.files?.[index]?.content?.message}
             {...register(`files.${index}.content`)}
           />
         </div>
@@ -97,6 +97,7 @@ export const GistForm: FC<Props> = ({ gistId, defaultValues, onSubmitForm, isLoa
         Add file
       </button>
       <button
+        disabled={isLoading}
         type="submit"
         className={`${isLoading ? 'loading' : ''} btn btn-primary text-white w-48 my-3`}
       >
@@ -105,3 +106,47 @@ export const GistForm: FC<Props> = ({ gistId, defaultValues, onSubmitForm, isLoa
     </form>
   );
 };
+
+const InputComponent = forwardRef(
+  (
+    {
+      isLoading,
+      error,
+      type = 'text',
+      className = 'input input-bordered w-full',
+      elementType = 'input',
+      ...rest
+    }: {
+      isLoading?: boolean;
+      error?: string;
+      type?: string;
+      placeholder?: string;
+      className?: string;
+      elementType?: 'input' | 'textarea';
+    },
+    ref: Ref<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const commonClass = 'my-3';
+    return (
+      <>
+        {error ? <p className="alert alert-error w-1/3">{error}</p> : null}
+        {elementType === 'input' ? (
+          <input
+            ref={ref as Ref<HTMLInputElement>}
+            disabled={isLoading}
+            type={type}
+            className={`${className} ${commonClass}`}
+            {...rest}
+          />
+        ) : (
+          <textarea
+            ref={ref as Ref<HTMLTextAreaElement>}
+            disabled={isLoading}
+            className={`${className} ${commonClass}`}
+            {...rest}
+          />
+        )}
+      </>
+    );
+  }
+);

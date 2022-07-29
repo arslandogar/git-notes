@@ -1,27 +1,9 @@
-import { createApi, BaseQueryFn } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 
-import { request, RequestOptions } from '@/lib/octokit';
+import { request } from '@/lib/octokit';
 
-import { Profile, Gist, GistDTO, ErrorResponse } from './types';
-
-const githubBaseQuery: BaseQueryFn<
-  RequestOptions, // Args
-  unknown, // Result
-  ErrorResponse, // Error
-  any, // DefinitionExtraOptions
-  any // Meta
-> = async (arg) => {
-  try {
-    const response = await request(arg);
-    return { data: response.data ? response.data : true };
-  } catch (error: any) {
-    const response = error.response;
-    if (response) {
-      return { error: { status: response.status, message: response.data.message } };
-    }
-    return { error: { status: 500, message: 'Unknown Error' } };
-  }
-};
+import { githubBaseQuery } from './githubBaseQuery';
+import { Profile, Gist, GistDTO } from './types';
 
 export const githubAPI = createApi({
   reducerPath: 'gitHub',
@@ -73,6 +55,10 @@ export const githubAPI = createApi({
         url: '/gists/{gist_id}/forks',
         params: { gist_id: id },
       }),
+      extraOptions: {
+        successMessage: 'Gist forked successfully',
+        failureMessage: 'Failed to fork gist',
+      },
     }),
 
     starGist: builder.mutation<boolean, string>({
@@ -82,6 +68,10 @@ export const githubAPI = createApi({
         params: { gist_id: id },
       }),
       invalidatesTags: (result, error, id) => [{ type: 'GistStars', id }],
+      extraOptions: {
+        successMessage: 'Gist starred successfully',
+        failureMessage: 'Failed to star gist',
+      },
     }),
 
     unStarGist: builder.mutation<boolean, string>({
@@ -91,6 +81,10 @@ export const githubAPI = createApi({
         params: { gist_id: id },
       }),
       invalidatesTags: (result, error, id) => [{ type: 'GistStars', id }],
+      extraOptions: {
+        successMessage: 'Gist unstarred successfully',
+        failureMessage: 'Failed to unstar gist',
+      },
     }),
 
     createGist: builder.mutation<Gist, GistDTO>({
@@ -100,6 +94,10 @@ export const githubAPI = createApi({
         params: data,
       }),
       invalidatesTags: ['PublicGists'],
+      extraOptions: {
+        successMessage: 'Gist created successfully',
+        failureMessage: 'Failed to create gist',
+      },
     }),
 
     updateGist: builder.mutation<Gist, GistDTO>({
@@ -109,6 +107,10 @@ export const githubAPI = createApi({
         params: data,
       }),
       invalidatesTags: ['PublicGists'],
+      extraOptions: {
+        successMessage: 'Gist updated successfully',
+        failureMessage: 'Failed to update gist',
+      },
     }),
 
     deleteGist: builder.mutation<Gist, string>({
@@ -118,6 +120,10 @@ export const githubAPI = createApi({
         params: { gist_id: id },
       }),
       invalidatesTags: (result, error, id) => ['PublicGists', { type: 'Gists', id }],
+      extraOptions: {
+        successMessage: 'Gist deteleted successfully',
+        failureMessage: 'Failed to delete gist',
+      },
     }),
   }),
 });

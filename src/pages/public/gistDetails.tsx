@@ -3,16 +3,19 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import { FC } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-import { CodeView, ForkButton, DeleteButton, StarButton } from '@/components';
+import { CodeView, ForkButton, DeleteButton, StarButton, ErrorFallback } from '@/components';
 import { useGetUserQuery, useGistQuery } from '@/features/api/githubAPI';
 import { AppLayout } from '@/layouts';
+import { useAppSelector } from '@/store';
 
 dayjs.extend(relativeTime);
 
 export const GridDetails: FC = () => {
   const params = useParams<{ gistId: string }>();
-  const { data: gist, isLoading } = useGistQuery(params.gistId as string);
+  const { data: gist, isLoading, isError, error } = useGistQuery(params.gistId as string);
   const { data: currentUser } = useGetUserQuery(undefined);
+
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 
   const renderCurrentUserOptions = () => {
     if (gist && gist.owner?.login === currentUser?.login) {
@@ -30,6 +33,11 @@ export const GridDetails: FC = () => {
   };
 
   const file = gist?.files[Object.keys(gist?.files)[0]];
+
+  if (isError) {
+    return <ErrorFallback message={error?.message} />;
+  }
+
   return (
     <AppLayout isLoading={isLoading}>
       <div className="py-10">
@@ -52,7 +60,7 @@ export const GridDetails: FC = () => {
             <span className="text-gray-400">{`Created ${dayjs(gist?.created_at).fromNow()}`}</span>
             <span className="text-gray-400">{gist?.description}</span>
           </div>
-          {gist ? (
+          {isAuthenticated && gist ? (
             <div className="flex flex-row ml-auto align-middle justify-evenly">
               {renderCurrentUserOptions()}
               <StarButton gistId={gist.id} color="blue" showText />

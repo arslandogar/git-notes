@@ -5,3 +5,4 @@ export * from './starButton';
 export * from './iconButton';
 export * from './gistForm/gistForm';
 export * from './deleteButton';
+export * from './errorFallback';

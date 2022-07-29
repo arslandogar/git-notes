@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAppSelector } from '@/store';
 
 import { GistSearchInput } from './gistSearchInput';
+import { LoginLink } from './loginLink';
 import { NavbarDropdownMenu } from './navbarDropdownMenu';
 
 export const Navbar = () => {
@@ -25,16 +26,7 @@ export const Navbar = () => {
           <GistSearchInput />
         </div>
 
-        {isAuthenticated ? (
-          <NavbarDropdownMenu />
-        ) : (
-          <a
-            className="btn btn-secondary text-primary"
-            href={`https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&scope=gist&redirect_uri=${window.location.href}`}
-          >
-            Login
-          </a>
-        )}
+        {isAuthenticated ? <NavbarDropdownMenu /> : <LoginLink />}
       </div>
     </div>
   );

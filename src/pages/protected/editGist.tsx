@@ -2,15 +2,16 @@ import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 
-import { GistForm } from '@/components';
+import { GistForm, ErrorFallback } from '@/components';
 import { GistFile } from '@/components/gistForm/types';
-import { useUpdateGistMutation, useGistQuery } from '@/features/api/githubAPI';
+import { useUpdateGistMutation, useGistQuery, useGetUserQuery } from '@/features/api/githubAPI';
 import { AppLayout } from '@/layouts';
 
 export const EditGist = () => {
   const params = useParams<{ gistId: string }>();
   const { data: gist, isLoading } = useGistQuery(params.gistId as string);
-  const [createGist, { isLoading: isCreating }] = useUpdateGistMutation();
+  const { data: currentUser } = useGetUserQuery(undefined);
+  const [updateGist, { isLoading: isUpdating }] = useUpdateGistMutation();
 
   const [isLoadingFiles, setIsLoadingFiles] = useState(true);
   const [files, setFiles] = useState<GistFile[]>([]);
@@ -41,12 +42,16 @@ export const EditGist = () => {
     }
   }, [gist]);
 
+  if (currentUser?.login !== gist?.owner?.login) {
+    return <ErrorFallback message="You don't have permission to edit this gist" />;
+  }
+
   return (
     <AppLayout isLoading={isLoading || isLoadingFiles}>
       <GistForm
         gistId={gist?.id}
-        onSubmitForm={createGist}
-        isLoading={isCreating}
+        onSubmitForm={updateGist}
+        isLoading={isUpdating}
         defaultValues={{
           public: gist?.public ?? false,
           description: gist?.description ?? '',

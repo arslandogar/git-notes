@@ -1,5 +1,4 @@
-import { FC, useEffect } from 'react';
-import toast from 'react-hot-toast';
+import { FC } from 'react';
 
 import { useForkGistMutation } from '@/features/api/githubAPI';
 
@@ -13,15 +12,6 @@ interface Props {
 
 export const ForkButton: FC<Props> = ({ color = 'primary', showText, gistId }) => {
   const [forkGist, forkGistResult] = useForkGistMutation();
-
-  useEffect(() => {
-    if (forkGistResult.isSuccess) {
-      toast.success('Gist forked successfully');
-    }
-    if (forkGistResult.isError) {
-      toast.error('Failed to fork gist');
-    }
-  }, [forkGistResult]);
 
   return (
     <IconButton
