@@ -1,4 +1,6 @@
 import { FC, useState, useEffect } from 'react';
+import AutoSizer from 'react-virtualized-auto-sizer';
+import { FixedSizeList as List } from 'react-window';
 
 interface Props {
   url: string | undefined;
@@ -12,17 +14,23 @@ export const CodeView: FC<Props> = ({ url, fullView }) => {
     if (url) {
       fetch(url)
         .then((res) => res.text())
-        .then((text) => setCode(text.split('\n').map((line) => line)));
+        .then((text) => setCode(text.split('\n')));
     }
   }, [url]);
 
   return (
-    <div className={`mockup-code overflow-auto bg-white text-black ${fullView ? '' : 'h-60'}`}>
-      {code.map((line, index) => (
-        <pre key={index} data-prefix={index + 1}>
-          <code>{line}</code>
-        </pre>
-      ))}
+    <div className={`mockup-code bg-white text-black ${fullView ? '' : 'h-60'}`}>
+      <AutoSizer>
+        {({ height, width }) => (
+          <List height={height} itemCount={code.length} itemSize={30} width={width}>
+            {({ index, style }) => (
+              <pre style={style} data-prefix={index + 1}>
+                <code>{code[index]}</code>
+              </pre>
+            )}
+          </List>
+        )}
+      </AutoSizer>
     </div>
   );
 };
