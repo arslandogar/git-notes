@@ -1,4 +1,3 @@
-export * from './input';
 export * from './codeView';
 export * from './forkButton';
 export * from './starButton';
@@ -7,7 +6,5 @@ export * from './gistForm';
 export * from './deleteButton';
 export * from './errorFallback';
 export * from './gistView';
-export * from './tableView';
-export * from './gridView';
 export * from './pagination';
 export * from './gistListing';

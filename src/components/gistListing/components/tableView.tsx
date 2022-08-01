@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { Gist } from '@/redux/apis/githubAPI/types';
 
-import { GistRow } from './components';
+import { GistRow } from './gistRow';
 
 interface Props {
   data?: Gist[];
