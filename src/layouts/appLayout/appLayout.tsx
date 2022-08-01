@@ -1,8 +1,8 @@
 import { FC, ReactNode, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import { login } from '@/features/auth/authSlice';
-import { useAppSelector, useAppDispatch } from '@/store';
+import { useAppSelector, useAppDispatch } from '@/redux';
+import { login } from '@/redux/slices';
 
 import { Navbar, Sidebar } from './components';
 

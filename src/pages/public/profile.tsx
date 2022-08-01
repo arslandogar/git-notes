@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { ErrorFallback, GistView, Pagination } from '@/components';
-import { useUserGistsQuery, useUserQuery } from '@/features/api/githubAPI';
 import { useFilteredGists } from '@/hooks';
 import { AppLayout } from '@/layouts';
+import { useUserGistsQuery, useUserQuery } from '@/redux/apis';
 
 export const Profile = () => {
   const [page, setPage] = useState(1);

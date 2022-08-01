@@ -1,5 +1,3 @@
-import { Navigate } from 'react-router-dom';
-
 import { CreateGist, EditGist, StarredGists } from '@/pages/protected';
 
 export const protectedRoutes = [
@@ -14,9 +12,5 @@ export const protectedRoutes = [
   {
     path: '/gists/edit/:gistId',
     element: <EditGist />,
-  },
-  {
-    path: '*',
-    element: <Navigate to="/" replace />,
   },
 ];

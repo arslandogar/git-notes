@@ -1,6 +1,6 @@
 import { GistForm } from '@/components';
-import { useCreateGistMutation } from '@/features/api/githubAPI';
 import { AppLayout } from '@/layouts';
+import { useCreateGistMutation } from '@/redux/apis';
 
 export const CreateGist = () => {
   const [createGist, { isLoading }] = useCreateGistMutation();

@@ -1,9 +1,9 @@
 import { FC, useState } from 'react';
 
 import { TableView, GridView, Pagination } from '@/components';
-import { Gist } from '@/features/api/types';
 import { useFilteredGists } from '@/hooks';
 import { AppLayout } from '@/layouts';
+import { Gist } from '@/redux/apis/githubAPI/types';
 
 interface Props {
   isLoading?: boolean;

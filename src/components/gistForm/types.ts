@@ -1,4 +1,4 @@
-import { GistDTO } from '@/features/api/types';
+import { GistDTO } from '@/redux/apis/githubAPI/types';
 
 export type GistFile = {
   key: string;

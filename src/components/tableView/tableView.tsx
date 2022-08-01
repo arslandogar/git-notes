@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { Gist } from '@/features/api/types';
+import { Gist } from '@/redux/apis/githubAPI/types';
 
 import { GistRow } from './components';
 

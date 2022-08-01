@@ -1,6 +1,6 @@
 import { Navigate, useRoutes } from 'react-router-dom';
 
-import { useAppSelector } from '@/store';
+import { useAppSelector } from '@/redux';
 
 import { protectedRoutes } from './protected';
 import { publicRoutes } from './public';

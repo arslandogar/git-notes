@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { useAppSelector } from '@/store';
+import { useAppSelector } from '@/redux';
 
 import { GistSearchInput } from './gistSearchInput';
 import { LoginLink } from './loginLink';

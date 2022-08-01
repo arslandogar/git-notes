@@ -1,5 +1,5 @@
-import { Gist } from '@/features/api/types';
-import { useAppSelector } from '@/store';
+import { useAppSelector } from '@/redux';
+import { Gist } from '@/redux/apis/githubAPI/types';
 
 export const useFilteredGists = (data?: Gist[]) => {
   const searchValue = useAppSelector((state) => state.gistSearch.value);

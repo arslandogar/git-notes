@@ -4,8 +4,8 @@ import { useParams } from 'react-router-dom';
 
 import { GistForm, ErrorFallback } from '@/components';
 import { GistFile } from '@/components/gistForm/types';
-import { useUpdateGistMutation, useGistQuery, useCurrentUserQuery } from '@/features/api/githubAPI';
 import { AppLayout } from '@/layouts';
+import { useUpdateGistMutation, useGistQuery, useCurrentUserQuery } from '@/redux/apis';
 
 export const EditGist = () => {
   const params = useParams<{ gistId: string }>();

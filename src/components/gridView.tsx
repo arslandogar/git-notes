@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { GistView } from '@/components';
-import { Gist } from '@/features/api/types';
+import { Gist } from '@/redux/apis/githubAPI/types';
 
 interface Props {
   data?: Gist[];

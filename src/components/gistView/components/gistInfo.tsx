@@ -3,9 +3,9 @@ import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 import { ForkButton, StarButton, DeleteButton } from '@/components';
-import { useCurrentUserQuery } from '@/features/api/githubAPI';
-import { Gist } from '@/features/api/types';
-import { useAppSelector } from '@/store';
+import { useAppSelector } from '@/redux';
+import { useCurrentUserQuery } from '@/redux/apis';
+import { Gist } from '@/redux/apis/githubAPI/types';
 
 interface Props extends Pick<Gist, 'id' | 'owner' | 'files' | 'description' | 'created_at'> {
   actionsButtonsDirection?: 'row' | 'col';

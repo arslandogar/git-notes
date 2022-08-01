@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import { ErrorFallback } from '@/components';
-import { store } from '@/store';
+import { store } from '@/redux';
 
 type AppProviderProps = {
   children: React.ReactNode;

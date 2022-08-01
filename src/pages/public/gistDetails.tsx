@@ -4,8 +4,8 @@ import { FC } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { GistView, ErrorFallback } from '@/components';
-import { useGistQuery } from '@/features/api/githubAPI';
 import { AppLayout } from '@/layouts';
+import { useGistQuery } from '@/redux/apis';
 
 dayjs.extend(relativeTime);
 

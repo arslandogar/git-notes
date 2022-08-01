@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { useForkGistMutation } from '@/features/api/githubAPI';
+import { useForkGistMutation } from '@/redux/apis';
 
 import { IconButton } from './iconButton';
 

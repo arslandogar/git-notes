@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface GistSearchState {
+interface GistSearchState {
   value: string;
 }
 
@@ -8,7 +8,7 @@ const initialState: GistSearchState = {
   value: '',
 };
 
-export const gistSearchSlice = createSlice({
+const gistSearchSlice = createSlice({
   name: 'gistSearch',
   initialState,
   reducers: {
@@ -18,6 +18,5 @@ export const gistSearchSlice = createSlice({
   },
 });
 
+export const { reducer: gistSearchReducer } = gistSearchSlice;
 export const { setValue } = gistSearchSlice.actions;
-
-export default gistSearchSlice.reducer;

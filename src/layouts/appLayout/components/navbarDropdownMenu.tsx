@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 
-import { useCurrentUserQuery, githubAPI } from '@/features/api/githubAPI';
-import { logout } from '@/features/auth/authSlice';
-import { useAppDispatch } from '@/store';
+import { useAppDispatch } from '@/redux';
+import { useCurrentUserQuery, githubAPI } from '@/redux/apis';
+import { logout } from '@/redux/slices';
 
 export const NavbarDropdownMenu = () => {
   const { data } = useCurrentUserQuery(undefined);

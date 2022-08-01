@@ -1,10 +1,6 @@
 import { FC } from 'react';
 
-import {
-  useStarGistMutation,
-  useUnStarGistMutation,
-  useIsStarredGistQuery,
-} from '@/features/api/githubAPI';
+import { useStarGistMutation, useUnStarGistMutation, useIsStarredGistQuery } from '@/redux/apis';
 
 import { IconButton } from './iconButton';
 

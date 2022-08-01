@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import storage from '@/utils/storage';
 
-export interface AuthState {
+interface AuthState {
   isAuthenticated: boolean;
   status: 'idle' | 'loading' | 'failed';
 }
@@ -22,7 +22,7 @@ export const login = createAsyncThunk('auth/login', async (code: string) => {
   return Promise.reject(false);
 });
 
-export const authSlice = createSlice({
+const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
@@ -47,6 +47,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { reducer: authReducer } = authSlice;
 
-export default authSlice.reducer;
+export const { logout } = authSlice.actions;

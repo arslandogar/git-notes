@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { GistListing } from '@/components';
-import { usePublicGistsQuery } from '@/features/api/githubAPI';
+import { usePublicGistsQuery } from '@/redux/apis';
 
 export const Landing = () => {
   const [page, setPage] = useState(1);

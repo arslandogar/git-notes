@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { useDeleteGistMutation } from '@/features/api/githubAPI';
+import { useDeleteGistMutation } from '@/redux/apis';
 
 import { IconButton } from './iconButton';
 

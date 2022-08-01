@@ -3,8 +3,8 @@ import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 import { ForkButton, StarButton } from '@/components';
-import { Gist } from '@/features/api/types';
-import { useAppSelector } from '@/store';
+import { Gist } from '@/redux/apis/githubAPI/types';
+import { useAppSelector } from '@/redux/hooks';
 
 interface Props {
   gist: Gist;
