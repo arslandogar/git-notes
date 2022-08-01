@@ -19,7 +19,7 @@ export const CodeView: FC<Props> = ({ url, fullView }) => {
   }, [url]);
 
   return (
-    <div className={`mockup-code bg-white text-black ${fullView ? '' : 'h-60'}`}>
+    <div className={`mockup-code bg-white text-black ${fullView ? 'h-screen' : 'h-60'}`}>
       <AutoSizer>
         {({ height, width }) => (
           <List height={height} itemCount={code.length} itemSize={30} width={width}>

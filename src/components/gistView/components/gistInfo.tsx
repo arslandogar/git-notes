@@ -41,7 +41,7 @@ export const GistInfo: FC<Props> = ({
   const file = files[Object.keys(files)[0]];
   return (
     <div className="flex flex-col lg:flex-row justify-between place-items-center h-48 p-5 overflow-auto border-t">
-      <div className="flex w-3/4 flex-row">
+      <div className="flex overflow-auto w-4/6 flex-row">
         <div className="avatar">
           <div className="mask mask-squircle w-12">
             <img src={owner?.avatar_url} alt="Gist Owner" />
@@ -53,7 +53,7 @@ export const GistInfo: FC<Props> = ({
               <span className="link">{`${owner?.login}`}</span>
             </Link>
             <span>{' / '}</span>
-            <Link to={`gists/${id}`}>
+            <Link to={`/gists/${id}`}>
               <span className="link truncate">{file?.filename}</span>
             </Link>
           </div>

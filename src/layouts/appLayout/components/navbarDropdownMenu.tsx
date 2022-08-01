@@ -30,7 +30,7 @@ export const MenuItems = () => {
     <>
       <li className="border-b">
         <p className="text-gray-500 pointer-events-none">Sign in as</p>
-        <Link to={`users/${data?.login}`} className="justify-between">
+        <Link to={`/users/${data?.login}`} className="justify-between">
           {data?.login}
         </Link>
       </li>
@@ -43,6 +43,9 @@ export const MenuItems = () => {
         </Link>
       </li>
       <li>
+        <a href={`https://github.com/${data.login}`} target="_blank" rel="noreferrer">
+          Your Github profiile
+        </a>
         <button
           onClick={() => {
             dispatch(logout());

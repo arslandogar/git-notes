@@ -34,6 +34,14 @@ export const Profile = () => {
         <div className="w-full h-full lg:w-1/3 card rounded-box justify-center place-items-center">
           <img className="w-52 h-52 rounded-full" alt="" src={user?.avatar_url} />
           <h2 className="mt-8 text-2xl">{user?.login}</h2>
+          <a
+            className="lg:mt-8 btn btn-secondary border-1 border-gray-400 text-blue-600"
+            href={`https://github.com/${user?.login}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            View Github profiile
+          </a>
         </div>
         <div className="lg:divider lg:divider-horizontal" />
         <div className="h-3/4 lg:px-10 w-full lg:w-2/3 card rounded-box place-items-center overflow-y-auto">
