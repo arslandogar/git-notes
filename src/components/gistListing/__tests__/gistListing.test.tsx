@@ -3,8 +3,8 @@ import { ReactNode } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import { MOCK_GISTS } from '@/hooks/useFilteredGists/__mocks__/constants';
 import { store } from '@/redux';
+import { MOCK_GISTS } from '@/utils/constants';
 
 import { GistListing } from '../gistListing';
 

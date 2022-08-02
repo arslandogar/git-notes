@@ -4,8 +4,8 @@ import { Provider } from 'react-redux';
 
 import { store } from '@/redux';
 import { setValue } from '@/redux/slices';
+import { MOCK_GISTS } from '@/utils/constants';
 
-import { MOCK_GISTS } from '../__mocks__/constants';
 import { useFilteredGists } from '../useFilteredGists';
 
 const ReduxProvider = ({ children }: { children: ReactNode }) => {
