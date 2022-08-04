@@ -8,7 +8,7 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  isAuthenticated: storage.getToken(),
+  isAuthenticated: !!storage.getToken(),
   status: 'idle',
 };
 

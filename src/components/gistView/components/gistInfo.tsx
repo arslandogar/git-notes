@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -6,6 +7,8 @@ import { ForkButton, StarButton, DeleteButton } from '@/components';
 import { useAppSelector } from '@/redux';
 import { useCurrentUserQuery } from '@/redux/apis';
 import { Gist } from '@/redux/apis/githubAPI/types';
+
+dayjs.extend(relativeTime);
 
 interface Props extends Pick<Gist, 'id' | 'owner' | 'files' | 'description' | 'created_at'> {
   actionsButtonsDirection?: 'row' | 'col';

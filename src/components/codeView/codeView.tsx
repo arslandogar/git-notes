@@ -12,19 +12,25 @@ export const CodeView: FC<Props> = ({ url, fullView }) => {
 
   useEffect(() => {
     if (url) {
-      fetch(url)
-        .then((res) => res.text())
-        .then((text) => setCode(text.split('\n')));
+      const fetchCode = async () => {
+        const response = await fetch(url);
+        const text = await response.text();
+        setCode(text.split('\n'));
+      };
+      fetchCode();
     }
   }, [url]);
 
   return (
-    <div className={`mockup-code bg-white text-black ${fullView ? 'h-screen' : 'h-60'}`}>
+    <div
+      data-testid="codeView-container"
+      className={`mockup-code bg-white text-black ${fullView ? 'h-screen' : 'h-60'}`}
+    >
       <AutoSizer>
         {({ height, width }) => (
           <List height={height} itemCount={code.length} itemSize={30} width={width}>
             {({ index, style }) => (
-              <pre style={style} data-prefix={index + 1}>
+              <pre data-testid={`codeView-pre-${index}`} style={style} data-prefix={index + 1}>
                 <code>{code[index]}</code>
               </pre>
             )}

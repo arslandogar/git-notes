@@ -33,7 +33,11 @@ export const GistListing: FC<Props> = ({ isLoading, data, page, setPage }) => {
       grid: 'border-all',
     };
     return (
-      <button className="btn btn-secondary" onClick={() => setViewMode(type)}>
+      <button
+        data-testid={`view-mode-button-${type}`}
+        className="btn btn-secondary"
+        onClick={() => setViewMode(type)}
+      >
         <i className={`fa-solid fa-${icons[type]} ${type === viewMode ? 'text-primary' : ''}`}></i>
       </button>
     );
