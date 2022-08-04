@@ -1,5 +1,5 @@
 import { FC, ReactNode, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { useAppSelector, useAppDispatch } from '@/redux';
 import { login } from '@/redux/slices';
@@ -14,6 +14,7 @@ interface Props {
 export const AppLayout: FC<Props> = ({ children, isLoading }) => {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [search] = useSearchParams();
 
   useEffect(() => {
@@ -28,6 +29,15 @@ export const AppLayout: FC<Props> = ({ children, isLoading }) => {
       <input id="drawer-checkbox" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col">
         <Navbar />
+        {window.history.state.idx > 0 ? (
+          <button
+            className="btn btn-ghost absolute top-20"
+            onClick={() => navigate(-1)}
+            disabled={window.history.length === 1}
+          >
+            <i className="fa-solid fa-arrow-left-long" />
+          </button>
+        ) : null}
         <main className="flex-1 overflow-y-auto px-5 md:px-10 lg:px-20">
           {isLoading ? (
             <div className="flex justify-center py-10">
