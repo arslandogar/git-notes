@@ -18,6 +18,7 @@ export const githubAPI = createApi({
     'PublicGists',
     'GistItems',
     'GistStars',
+    'GistForksCount',
   ],
   endpoints: (builder) => ({
     currentUser: builder.query<Profile, undefined>({
@@ -90,7 +91,7 @@ export const githubAPI = createApi({
         url: '/gists/{gist_id}/forks',
         params: { gist_id: id },
       }),
-      invalidatesTags: ['UserGists'],
+      invalidatesTags: (result, error, id) => [{ type: 'GistForksCount', id }, 'UserGists'],
       extraOptions: {
         successMessage: 'Gist forked successfully',
         failureMessage: 'Failed to fork gist',
@@ -166,6 +167,22 @@ export const githubAPI = createApi({
         failureMessage: 'Failed to delete gist',
       },
     }),
+
+    countForks: builder.query<number, string>({
+      async queryFn(id) {
+        try {
+          const response = await request({
+            method: 'GET',
+            url: '/gists/{gist_id}/forks',
+            params: { gist_id: id },
+          });
+          return { data: response.data.length };
+        } catch (error) {
+          return { data: 0 };
+        }
+      },
+      providesTags: (result, error, id) => [{ type: 'GistForksCount', id }],
+    }),
   }),
 });
 
@@ -183,4 +200,5 @@ export const {
   useCreateGistMutation,
   useUpdateGistMutation,
   useDeleteGistMutation,
+  useCountForksQuery,
 } = githubAPI;

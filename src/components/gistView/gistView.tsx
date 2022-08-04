@@ -35,7 +35,7 @@ export const GistView: FC<Props> = ({ showAllFiles, fullCodeView, gist, infoPosi
       {infoPosition === 'top' && renderGistInfo()}
 
       {files.map((file) => (
-        <div key={file.filename} className="card card-compact bg-base-100 shadow-xl border my-10">
+        <div key={file.filename} className="card card-compact bg-base-100 shadow-xl border mb-20">
           <div className="card-body">
             <CodeView fileName={file.filename} fullView={fullCodeView} url={file?.raw_url} />
             {infoPosition === 'bottom' ? renderGistInfo() : null}

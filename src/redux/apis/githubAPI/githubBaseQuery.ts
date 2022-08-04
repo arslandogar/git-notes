@@ -19,12 +19,13 @@ export const githubBaseQuery: BaseQueryFn<
     }
     return { data: response.data ? response.data : true };
   } catch (error: any) {
-    if (extraOptions && extraOptions.failureMessage) {
-      toast.error(extraOptions.failureMessage);
-    }
     const response = error.response;
+    const errorMessage = response?.data?.message || error.message;
+    if (extraOptions && extraOptions.failureMessage) {
+      toast.error(errorMessage ? errorMessage : extraOptions.failureMessage);
+    }
     if (response) {
-      return { error: { status: response.status, message: response.data.message } };
+      return { error: { status: response.status, message: errorMessage } };
     }
     return { error: { status: 500, message: 'Unknown Error' } };
   }

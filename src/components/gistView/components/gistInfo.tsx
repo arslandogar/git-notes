@@ -42,7 +42,7 @@ export const GistInfo: FC<Props> = ({
   };
 
   return (
-    <div className="flex flex-col lg:flex-row justify-between place-items-center p-5 overflow-auto border-t">
+    <div className="flex flex-col lg:flex-row justify-between place-items-center h-48 p-5 overflow-auto border-t">
       <div className="flex overflow-auto w-3/5 flex-row">
         <div className="avatar">
           <div className="mask mask-squircle w-12">
