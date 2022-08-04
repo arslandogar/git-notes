@@ -9,7 +9,7 @@ import { useUpdateGistMutation, useGistQuery, useCurrentUserQuery } from '@/redu
 
 export const EditGist = () => {
   const params = useParams<{ gistId: string }>();
-  const { data: gist, isLoading } = useGistQuery(params.gistId as string);
+  const { data: gist, isLoading: isLoadingGist } = useGistQuery(params.gistId as string);
   const { data: currentUser } = useCurrentUserQuery(undefined);
   const [updateGist, { isLoading: isUpdating }] = useUpdateGistMutation();
 
@@ -42,12 +42,14 @@ export const EditGist = () => {
     }
   }, [gist]);
 
-  if (currentUser?.login !== gist?.owner?.login) {
+  const isLoading = isLoadingGist || isLoadingFiles;
+
+  if (!isLoading && currentUser?.login !== gist?.owner?.login) {
     return <ErrorFallback message="You don't have permission to edit this gist" />;
   }
 
   return (
-    <AppLayout isLoading={isLoading || isLoadingFiles}>
+    <AppLayout isLoading={isLoading}>
       <GistForm
         gistId={gist?.id}
         onSubmitForm={updateGist}
