@@ -2,9 +2,9 @@ import { renderHook } from '@testing-library/react';
 import { ReactNode } from 'react';
 import { Provider } from 'react-redux';
 
+import { MOCK_GISTS } from '@/mocks/responses';
 import { store } from '@/redux';
 import { setValue } from '@/redux/slices';
-import { MOCK_GISTS } from '@/utils/constants';
 
 import { useFilteredGists } from '../useFilteredGists';
 
