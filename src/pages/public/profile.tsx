@@ -31,7 +31,7 @@ export const Profile = () => {
   return (
     <AppLayout isLoading={isGistsLoading || isUserLoading}>
       <div className="flex flex-col lg:flex-row w-full h-full justify-center place-items-center">
-        <div className="w-full h-full lg:w-1/3 card rounded-box justify-center place-items-center">
+        <div className="w-full h-full lg:w-1/4 card rounded-box justify-center place-items-center">
           <img className="w-52 h-52 rounded-full" alt="" src={user?.avatar_url} />
           <h2 className="mt-8 text-2xl">{user?.login}</h2>
           <a
@@ -44,7 +44,7 @@ export const Profile = () => {
           </a>
         </div>
         <div className="lg:divider lg:divider-horizontal" />
-        <div className="h-3/4 lg:px-10 w-full lg:w-2/3 card rounded-box place-items-center overflow-y-auto">
+        <div className="h-3/4 lg:px-10 w-full lg:w-3/4 card rounded-box place-items-center overflow-y-auto">
           {renderGists()}
           <Pagination page={page} setPage={setPage} />
         </div>

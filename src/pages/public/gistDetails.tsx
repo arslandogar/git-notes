@@ -15,7 +15,11 @@ export const GridDetails: FC = () => {
 
   return (
     <AppLayout isLoading={isLoading}>
-      {gist ? <GistView fullCodeView gist={gist} /> : null}
+      {gist ? (
+        <div className="py-20">
+          <GistView showAllFiles fullCodeView gist={gist} />
+        </div>
+      ) : null}
     </AppLayout>
   );
 };

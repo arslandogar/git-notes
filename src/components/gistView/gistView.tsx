@@ -8,19 +8,19 @@ import { GistInfo } from './components';
 
 interface Props {
   gist: Gist;
+  showAllFiles?: boolean;
   fullCodeView?: boolean;
   infoPosition?: 'top' | 'bottom';
 }
 
-export const GistView: FC<Props> = ({ fullCodeView, gist, infoPosition = 'top' }) => {
-  const file = gist?.files[Object.keys(gist?.files)[0]];
+export const GistView: FC<Props> = ({ showAllFiles, fullCodeView, gist, infoPosition = 'top' }) => {
+  const filesArray = Object.values(gist.files);
 
   const renderGistInfo = () => {
     return (
       <GistInfo
         id={gist.id}
         owner={gist.owner}
-        files={gist.files}
         description={gist.description}
         created_at={gist.created_at}
         actionsButtonsDirection={infoPosition === 'top' ? 'row' : 'col'}
@@ -28,15 +28,20 @@ export const GistView: FC<Props> = ({ fullCodeView, gist, infoPosition = 'top' }
     );
   };
 
+  const files = showAllFiles ? filesArray : filesArray.slice(0, 1);
+
   return (
-    <div key={gist.id} className="my-10 w-full">
+    <div key={gist.id} className="w-full">
       {infoPosition === 'top' && renderGistInfo()}
-      <div className="card card-compact bg-base-100 shadow-xl border">
-        <div className="card-body">
-          <CodeView fullView={fullCodeView} url={file?.raw_url} />
-          {infoPosition === 'bottom' ? renderGistInfo() : null}
+
+      {files.map((file) => (
+        <div key={file.filename} className="card card-compact bg-base-100 shadow-xl border mb-20">
+          <div className="card-body">
+            <CodeView fileName={file.filename} fullView={fullCodeView} url={file?.raw_url} />
+            {infoPosition === 'bottom' ? renderGistInfo() : null}
+          </div>
         </div>
-      </div>
+      ))}
     </div>
   );
 };

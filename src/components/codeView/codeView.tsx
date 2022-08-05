@@ -3,11 +3,12 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeList as List } from 'react-window';
 
 interface Props {
-  url: string | undefined;
+  fileName?: string;
+  url?: string;
   fullView?: boolean;
 }
 
-export const CodeView: FC<Props> = ({ url, fullView }) => {
+export const CodeView: FC<Props> = ({ fileName, url, fullView }) => {
   const [code, setCode] = useState<string[]>([]);
 
   useEffect(() => {
@@ -22,21 +23,26 @@ export const CodeView: FC<Props> = ({ url, fullView }) => {
   }, [url]);
 
   return (
-    <div
-      data-testid="codeView-container"
-      className={`mockup-code bg-white text-black ${fullView ? 'h-screen' : 'h-60'}`}
-    >
-      <AutoSizer>
-        {({ height, width }) => (
-          <List height={height} itemCount={code.length} itemSize={30} width={width}>
-            {({ index, style }) => (
-              <pre data-testid={`codeView-pre-${index}`} style={style} data-prefix={index + 1}>
-                <code>{code[index]}</code>
-              </pre>
-            )}
-          </List>
-        )}
-      </AutoSizer>
-    </div>
+    <>
+      <div
+        data-testid="codeView-container"
+        className={`mockup-code bg-white text-black ${fullView ? 'h-screen' : 'h-60'} ${
+          fileName ? 'before:shadow-none' : ''
+        }`}
+      >
+        <span className="text-gray-500 absolute top-2 left-4">{fileName}</span>
+        <AutoSizer>
+          {({ height, width }) => (
+            <List height={height} itemCount={code.length} itemSize={30} width={width}>
+              {({ index, style }) => (
+                <pre data-testid={`codeView-pre-${index}`} style={style} data-prefix={index + 1}>
+                  <code>{code[index]}</code>
+                </pre>
+              )}
+            </List>
+          )}
+        </AutoSizer>
+      </div>
+    </>
   );
 };

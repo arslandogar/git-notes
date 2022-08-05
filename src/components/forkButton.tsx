@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { useForkGistMutation } from '@/redux/apis';
+import { useForkGistMutation, useCountForksQuery } from '@/redux/apis';
 
 import { IconButton } from './iconButton';
 
@@ -11,6 +11,7 @@ interface Props {
 }
 
 export const ForkButton: FC<Props> = ({ color = 'primary', showText, gistId }) => {
+  const { data: countForks } = useCountForksQuery(gistId);
   const [forkGist, forkGistResult] = useForkGistMutation();
 
   return (
@@ -20,7 +21,8 @@ export const ForkButton: FC<Props> = ({ color = 'primary', showText, gistId }) =
       }}
       icon="fas fa-code-fork"
       color={color}
-      text={showText ? 'Fork' : undefined}
+      text={showText ? `Fork` : undefined}
+      count={countForks}
       isLoading={forkGistResult.isLoading}
     />
   );
