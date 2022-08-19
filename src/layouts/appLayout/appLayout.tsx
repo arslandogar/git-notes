@@ -7,10 +7,19 @@ import { login } from '@/redux/slices';
 import { Navbar, Sidebar } from './components';
 
 interface Props {
+  /**
+   * Children to render
+   */
   children: ReactNode;
+  /**
+   * If true, a loading spinner will be displayed instead of the children
+   */
   isLoading?: boolean;
 }
 
+/**
+ * A layout component that contains the navbar and sidebar
+ */
 export const AppLayout: FC<Props> = ({ children, isLoading }) => {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const dispatch = useAppDispatch();

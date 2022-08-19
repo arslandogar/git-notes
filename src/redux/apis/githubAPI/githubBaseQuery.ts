@@ -5,6 +5,9 @@ import { request, RequestOptions } from '@/lib/octokit';
 
 import { ErrorResponse } from './types';
 
+/**
+ * Base query function for the GitHub API. Handles requests to the GitHub API.
+ */
 export const githubBaseQuery: BaseQueryFn<
   RequestOptions, // Args
   unknown, // Result

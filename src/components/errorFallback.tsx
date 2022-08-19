@@ -1,9 +1,16 @@
 import { FC } from 'react';
 
 interface Props {
+  /**
+   * Message to display
+   * @default 'Ooops, something went wrong :( '
+   */
   message?: string;
 }
 
+/**
+ * Fallback component when an error occurs
+ */
 export const ErrorFallback: FC<Props> = ({ message = 'Ooops, something went wrong :( ' }) => {
   return (
     <div

@@ -1,9 +1,19 @@
 import { FC } from 'react';
 
 interface Props {
+  /**
+   * Current page
+   */
   page: number;
+  /**
+   * Sets the current page to the given value
+   */
   setPage: (page: number) => void;
 }
+
+/**
+ * Pagination component, with a previous and next button
+ */
 export const Pagination: FC<Props> = ({ page, setPage }) => {
   const handleNextPage = () => {
     setPage(page + 1);

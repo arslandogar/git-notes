@@ -5,11 +5,24 @@ import { useStarGistMutation, useUnStarGistMutation, useIsStarredGistQuery } fro
 import { IconButton } from './iconButton';
 
 interface Props {
+  /**
+   * Gist to star (or unstar if it's already starred)
+   */
   gistId: string;
+  /**
+   * Color of the button
+   * @default 'primary'
+   */
   color?: 'primary' | 'blue';
+  /**
+   * If true, the button will have the text "Star"
+   */
   showText?: boolean;
 }
 
+/**
+ * A button that stars a gist (or unstars it if it's already starred)
+ */
 export const StarButton: FC<Props> = ({ gistId, color, showText }) => {
   const [starGist, starGistResult] = useStarGistMutation();
   const [unStarGist, unStarGistResult] = useUnStarGistMutation();

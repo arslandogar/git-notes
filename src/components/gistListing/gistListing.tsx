@@ -9,16 +9,25 @@ import { TableView, GridView } from './components';
 
 interface Props {
   isLoading?: boolean;
+  /**
+   * Data to display
+   */
   data?: Gist[];
   page: number;
   setPage: (page: number) => void;
 }
 
+/**
+ * Lists gists in a table or grid
+ */
 export const GistListing: FC<Props> = ({ isLoading, data, page, setPage }) => {
   const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
 
   const filteredData = useFilteredGists(data);
 
+  /**
+   * Renders the table or grid view
+   */
   const renderGists = () => {
     if (filteredData?.length === 0) {
       return <div className="text-center text-2xl text-error">No Gists Found</div>;
@@ -27,6 +36,10 @@ export const GistListing: FC<Props> = ({ isLoading, data, page, setPage }) => {
     if (viewMode === 'grid') return <GridView data={filteredData} />;
   };
 
+  /**
+   * Renders a button to change the view mode
+   * @param type The view mode to change to
+   */
   const renderViewModeButton = (type: typeof viewMode) => {
     const icons = {
       list: 'list',

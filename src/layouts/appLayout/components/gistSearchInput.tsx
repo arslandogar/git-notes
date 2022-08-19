@@ -1,6 +1,9 @@
 import { useAppDispatch, useAppSelector } from '@/redux';
 import { setValue } from '@/redux/slices';
 
+/**
+ * Input component for searching gists
+ */
 export const GistSearchInput = () => {
   const dispatch = useAppDispatch();
   const value = useAppSelector((state) => state.gistSearch.value);

@@ -1,5 +1,8 @@
 import * as yup from 'yup';
 
+/**
+ * Schema for the gist form.
+ */
 export const schema = yup
   .object({
     description: yup.string().required('Description is required'),

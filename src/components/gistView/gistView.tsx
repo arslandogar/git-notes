@@ -7,12 +7,28 @@ import { CodeView } from '../codeView';
 import { GistInfo } from './components';
 
 interface Props {
+  /**
+   * Gist to display
+   */
   gist: Gist;
+  /**
+   * If true, all the files in the gist will be displayed
+   */
   showAllFiles?: boolean;
+  /**
+   * If true, the code view will have height of the viewport
+   */
   fullCodeView?: boolean;
+  /**
+   * Position of the gist info
+   * @default top
+   */
   infoPosition?: 'top' | 'bottom';
 }
 
+/**
+ * Displays a gist with gist info and code
+ */
 export const GistView: FC<Props> = ({ showAllFiles, fullCodeView, gist, infoPosition = 'top' }) => {
   const filesArray = Object.values(gist.files);
 

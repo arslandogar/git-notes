@@ -5,9 +5,15 @@ import { Gist } from '@/redux/apis/githubAPI/types';
 import { GistRow } from './gistRow';
 
 interface Props {
+  /**
+   * Data to display
+   */
   data?: Gist[];
 }
 
+/**
+ * Lists gists in a table view
+ */
 export const TableView: FC<Props> = ({ data }) => {
   return (
     <div className="overflow-x-auto">

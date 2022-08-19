@@ -4,9 +4,15 @@ import { GistView } from '@/components';
 import { Gist } from '@/redux/apis/githubAPI/types';
 
 interface Props {
+  /**
+   * Data to display
+   */
   data?: Gist[];
 }
 
+/**
+ * Lists gists in a grid view
+ */
 export const GridView: FC<Props> = ({ data }) => {
   return (
     <div data-testid="gists-grid-view" className="overflow-x-auto">

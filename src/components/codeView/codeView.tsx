@@ -3,11 +3,24 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeList as List } from 'react-window';
 
 interface Props {
+  /**
+   * The name of the file to display
+   */
   fileName?: string;
+  /**
+   * The url of the file
+   */
   url?: string;
+
+  /**
+   * If true, the code view will have height of the viewport
+   */
   fullView?: boolean;
 }
 
+/**
+ * Downloads a gist file and displays it in a virtualized list
+ */
 export const CodeView: FC<Props> = ({ fileName, url, fullView }) => {
   const [code, setCode] = useState<string[]>([]);
 

@@ -7,9 +7,15 @@ import { Gist } from '@/redux/apis/githubAPI/types';
 import { useAppSelector } from '@/redux/hooks';
 
 interface Props {
+  /**
+   * Gist to display
+   */
   gist: Gist;
 }
 
+/**
+ * Renders a row for a gist
+ */
 export const GistRow: FC<Props> = ({ gist }) => {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 

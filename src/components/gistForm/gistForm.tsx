@@ -6,6 +6,9 @@ import { useForm, useFieldArray } from 'react-hook-form';
 import { schema } from './schema';
 import { FormData, Props } from './types';
 
+/**
+ * Form for creating a new gist or editing an existing one
+ */
 export const GistForm: FC<Props> = ({ gistId, defaultValues, onSubmitForm, isLoading }) => {
   const {
     register,
