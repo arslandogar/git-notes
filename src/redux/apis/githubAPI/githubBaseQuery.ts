@@ -12,17 +12,18 @@ export const githubBaseQuery: BaseQueryFn<
   { successMessage?: string; failureMessage?: string } | undefined, // DefinitionExtraOptions
   any // Meta
 > = async (arg, _, extraOptions) => {
+  const { successMessage, failureMessage } = extraOptions || {};
   try {
     const response = await request(arg);
-    if (extraOptions && extraOptions.successMessage) {
-      toast.success(extraOptions.successMessage);
+    if (successMessage) {
+      toast.success(successMessage);
     }
     return { data: response.data ? response.data : true };
   } catch (error: any) {
     const response = error.response;
-    const errorMessage = response?.data?.message || error.message;
-    if (extraOptions && extraOptions.failureMessage) {
-      toast.error(errorMessage ? errorMessage : extraOptions.failureMessage);
+    const errorMessage = response?.data?.message || error.message || failureMessage;
+    if (errorMessage) {
+      toast.error(errorMessage);
     }
     if (response) {
       return { error: { status: response.status, message: errorMessage } };
