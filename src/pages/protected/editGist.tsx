@@ -17,29 +17,29 @@ export const EditGist = () => {
   const [files, setFiles] = useState<GistFile[]>([]);
 
   useEffect(() => {
-    if (gist) {
-      const setFilesFromGist = async () => {
-        try {
-          const files: GistFile[] = await Promise.all(
-            Object.keys(gist.files).map(async (key) => {
-              const file = gist.files[key];
-              const fileObject = { key: file.filename as string, content: '' };
-              if (file.raw_url) {
-                const fileContent = await fetch(file.raw_url).then((res) => res.text());
-                fileObject.content = fileContent;
-              }
-              return fileObject;
-            })
-          );
-          setFiles(files);
-        } catch {
-          toast.error("Couldn't load files from gist");
-        } finally {
-          setIsLoadingFiles(false);
-        }
-      };
-      setFilesFromGist();
-    }
+    if (!gist) return;
+
+    const setFilesFromGist = async () => {
+      try {
+        const files: GistFile[] = await Promise.all(
+          Object.keys(gist.files).map(async (key) => {
+            const file = gist.files[key];
+            const fileObject = { key: file.filename as string, content: '' };
+            if (file.raw_url) {
+              const fileContent = await fetch(file.raw_url).then((res) => res.text());
+              fileObject.content = fileContent;
+            }
+            return fileObject;
+          })
+        );
+        setFiles(files);
+      } catch {
+        toast.error("Couldn't load files from gist");
+      } finally {
+        setIsLoadingFiles(false);
+      }
+    };
+    setFilesFromGist();
   }, [gist]);
 
   const isLoading = isLoadingGist || isLoadingFiles;

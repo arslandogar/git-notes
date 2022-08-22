@@ -46,7 +46,7 @@ export const GistInfo: FC<Props> = ({
       <div className="flex overflow-auto w-3/5 flex-row">
         <div className="avatar">
           <div className="mask mask-squircle w-12">
-            <img src={owner?.avatar_url} alt="Gist Owner" />
+            <img className="!object-contain" src={owner?.avatar_url} alt="Gist Owner" />
           </div>
         </div>
         <div className="flex flex-col ml-5">
